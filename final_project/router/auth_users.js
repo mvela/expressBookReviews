@@ -51,10 +51,6 @@ regd_users.post("/login", (req, res) => {
       { expiresIn: 60 * 60 }
     );
 
-    req.session.authorization = {
-      accessToken,
-      username,
-    };
     return res.status(200).send("User successfully logged in");
   } else {
     return res

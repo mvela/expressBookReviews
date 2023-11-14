@@ -1,6 +1,7 @@
 const express = require("express");
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
+let authenticatedUser = require("./auth_users.js").authenticatedUser;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
 
@@ -13,7 +14,7 @@ public_users.post("/register", (req, res) => {
       users.push({ username: username, password: password });
       return res
         .status(200)
-        .json({ message: "User successfully registred. Now you can login" });
+        .json({ message: "User successfully registered. Now you can login" });
     } else {
       return res.status(404).json({ message: "User already exists!" });
     }
@@ -28,8 +29,12 @@ public_users.get("/", function (req, res) {
 
 // Get book details based on ISBN
 public_users.get("/isbn/:isbn", function (req, res) {
-  //Write your code here
-  return res.status(200).json({ book: books[req.params.isbn] });
+  const isbn = req.params.isbn;
+  const book = books[isbn];
+  if (!book) {
+    return res.status(404).json({ message: "Book not found" });
+  }
+  return res.status(200).json({ book });
 });
 
 // Get book details based on author

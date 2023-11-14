@@ -43,7 +43,7 @@ regd_users.post("/login", (req, res) => {
   if (authenticatedUser(username, password)) {
     let accessToken = jwt.sign(
       {
-        data: password,
+        data: username,
       },
       "access",
       { expiresIn: 60 * 60 }
@@ -69,7 +69,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     return res.status(404).json({ message: "Book not found" });
   }
 
-  const sessionUser = req.session.authorization.username;
+  const sessionUser = req.user.username;
   const review = req.body.review;
 
   book["reviews"][sessionUser] = review;
@@ -87,7 +87,7 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
     return res.status(404).json({ message: "Book not found" });
   }
 
-  const sessionUser = req.session.authorization.username;
+  const sessionUser = req.user.username;
 
   if (!book["reviews"][sessionUser]) {
     return res.status(404).json({ message: "Review not found" });

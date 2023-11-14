@@ -9,8 +9,8 @@ describe("General Routes", () => {
   describe("POST /register", () => {
     it("it should register a new user", (done) => {
       let user = {
-        username: "testuser",
-        password: "testpassword",
+        username: "user1",
+        password: "password123",
       };
       chai
         .request(server)

@@ -18,9 +18,10 @@ app.use(
 );
 
 app.use("/customer/auth/*", function auth(req, res, next) {
-  //Write the authenication mechanism here
-  if (req.session.authorization) {
-    token = req.session.authorization["accessToken"];
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (token) {
     jwt.verify(token, "access", (err, user) => {
       if (!err) {
         req.user = user;
@@ -40,4 +41,4 @@ app.use("/customer", customer_routes);
 app.use("/", genl_routes);
 
 app.listen(PORT, () => console.log("Server is running"));
-exports.app = app;
+module.exports.app = app;

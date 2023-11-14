@@ -2,6 +2,8 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 let books = require("./booksdb.js");
 const regd_users = express.Router();
+require("dotenv").config();
+const secret = process.env.SECRET_ACCESS_TOKEN;
 
 let users = [];
 
@@ -45,7 +47,7 @@ regd_users.post("/login", (req, res) => {
       {
         data: username,
       },
-      "access",
+      secret,
       { expiresIn: 60 * 60 }
     );
 

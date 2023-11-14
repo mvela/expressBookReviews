@@ -4,7 +4,8 @@ const server = require("../index.js").app;
 const should = chai.should();
 const auth_users = require("../router/auth_users.js");
 const jwt = require("jsonwebtoken");
-const token = "access";
+require("dotenv").config();
+const secret = process.env.SECRET_ACCESS_TOKEN;
 
 chai.use(chaiHttp);
 
@@ -77,7 +78,7 @@ describe("PUT customer/auth/review/:isbn", () => {
       .put("/customer/auth/review/" + isbn)
       .set(
         "authorization",
-        `Bearer ${jwt.sign({ username: user.username }, token)}`
+        `Bearer ${jwt.sign({ username: user.username }, secret)}`
       )
       .send({ review })
       .end((err, res) => {
@@ -100,7 +101,7 @@ describe("PUT customer/auth/review/:isbn", () => {
       .put("/customer/auth/review/" + isbn)
       .set(
         "authorization",
-        `Bearer ${jwt.sign({ username: user.username }, token)}`
+        `Bearer ${jwt.sign({ username: user.username }, secret)}`
       )
       .send({ review })
       .end((err, res) => {
@@ -124,7 +125,7 @@ describe("DELETE customer/auth/review/:isbn", () => {
       .put("/customer/auth/review/" + isbn)
       .set(
         "authorization",
-        `Bearer ${jwt.sign({ username: user.username }, token)}`
+        `Bearer ${jwt.sign({ username: user.username }, secret)}`
       )
       .send({ review })
       .end((err, res) => {
@@ -133,7 +134,7 @@ describe("DELETE customer/auth/review/:isbn", () => {
           .delete("/customer/auth/review/" + isbn)
           .set(
             "authorization",
-            `Bearer ${jwt.sign({ username: user.username }, token)}`
+            `Bearer ${jwt.sign({ username: user.username }, secret)}`
           )
           .end((err, res) => {
             res.should.have.status(200);
@@ -154,7 +155,7 @@ describe("DELETE customer/auth/review/:isbn", () => {
       .delete("/customer/auth/review/" + isbn)
       .set(
         "authorization",
-        `Bearer ${jwt.sign({ username: user.username }, token)}`
+        `Bearer ${jwt.sign({ username: user.username }, secret)}`
       )
       .end((err, res) => {
         res.should.have.status(404);
@@ -170,7 +171,7 @@ describe("DELETE customer/auth/review/:isbn", () => {
       .delete("/customer/auth/review/" + isbn)
       .set(
         "authorization",
-        `Bearer ${jwt.sign({ username: user.username }, token)}`
+        `Bearer ${jwt.sign({ username: user.username }, secret)}`
       )
       .end((err, res) => {
         res.should.have.status(404);
